@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InitialMigration123.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace InitialMigration123.Entities
     public class Schedule
     {
         public int Id { get; set; }
-        public string? Title { get; set; }
+        public ScheduleEnum Title { get; set; }
         public bool SUN { get; set; }
         public bool MON { get; set; }
         public bool TUE { get; set; }

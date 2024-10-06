@@ -27,8 +27,8 @@ namespace InitialMigration123
 
 
                     Console.WriteLine($"| {section.Id.ToString().PadLeft(2, '0')} |" +
-                        $" {section.Course?.CourseName, -12} | {section.SectionName, -7}      | {section.Instructor?.Name, -20} | {section.Schedule.Title, -14} |" +
-                        $" {section.StartTime.ToString("hh\\:mm"), -5}:{section.EndTime.ToString("hh\\:mm"), -5}        |" +
+                        $" {section.Course?.CourseName, -12} | {section.SectionName, -7}       | {section.Instructor?.Name, -20}| {section.Schedule.Title, -14} |" +
+                        $" {section.TimeSlot, -9}        |" +
                         $" {sunday, -3} | {monday, -3} | {tuesday, -3} | {wednesday, -3} | {thursday, -3} | {friday, -3} | {saturday, -3} |");
                 }
             }

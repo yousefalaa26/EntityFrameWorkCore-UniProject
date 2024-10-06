@@ -23,19 +23,7 @@ namespace InitialMigration123.Data.Config
                 .HasMaxLength(50).IsRequired();
 
             builder.ToTable("Offices");
-            builder.HasData(LoadOffices());
         }
 
-        private static List<Office> LoadOffices()
-        {
-            return new List<Office>()
-            {
-                new Office{ Id= 1, OfficeName= "OFF_05", OfficeLocation= "building A"},
-                new Office{ Id= 2, OfficeName= "OFF_12", OfficeLocation= "building B"},
-                new Office{ Id= 3, OfficeName= "OFF_32", OfficeLocation= "Adminstration"},
-                new Office{ Id= 4, OfficeName= "OFF_44", OfficeLocation= "IT Department"},
-                new Office{ Id= 5, OfficeName= "OFF_43", OfficeLocation= "IT Department"}
-            };
-        }
     }
 }

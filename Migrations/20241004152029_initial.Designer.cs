@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InitialMigration123.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240929201440_add-section-entity-with-relation-to-Instructor-course")]
-    partial class addsectionentitywithrelationtoInstructorcourse
+    [Migration("20241004152029_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,38 +42,21 @@ namespace InitialMigration123.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses", (string)null);
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseName = "Mathematics",
-                            Price = 1000m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CourseName = "Physics",
-                            Price = 2000m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CourseName = "Chemistry",
-                            Price = 1500m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CourseName = "Biology",
-                            Price = 1200m
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CourseName = "Computer Science",
-                            Price = 3000m
-                        });
+            modelBuilder.Entity("InitialMigration123.Entities.Enrollment", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SectionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentId", "SectionId");
+
+                    b.HasIndex("SectionId");
+
+                    b.ToTable("Enrollment", (string)null);
                 });
 
             modelBuilder.Entity("InitialMigration123.Entities.Instructor", b =>
@@ -96,38 +79,6 @@ namespace InitialMigration123.Migrations
                         .HasFilter("[OfficeId] IS NOT NULL");
 
                     b.ToTable("Instructors", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Ahmed Abdullah",
-                            OfficeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Yasmeen Mohammed",
-                            OfficeId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Khalid Hassan",
-                            OfficeId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Nadia Ali",
-                            OfficeId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Omar Ibrahim",
-                            OfficeId = 5
-                        });
                 });
 
             modelBuilder.Entity("InitialMigration123.Entities.Office", b =>
@@ -148,38 +99,42 @@ namespace InitialMigration123.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Offices", (string)null);
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            OfficeLocation = "building A",
-                            OfficeName = "OFF_05"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            OfficeLocation = "building B",
-                            OfficeName = "OFF_12"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            OfficeLocation = "Adminstration",
-                            OfficeName = "OFF_32"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            OfficeLocation = "IT Department",
-                            OfficeName = "OFF_44"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            OfficeLocation = "IT Department",
-                            OfficeName = "OFF_43"
-                        });
+            modelBuilder.Entity("InitialMigration123.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("FRI")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MON")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SAT")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("SUN")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("THU")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TUE")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<bool>("WED")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Schedules", (string)null);
                 });
 
             modelBuilder.Entity("InitialMigration123.Entities.Section", b =>
@@ -190,7 +145,13 @@ namespace InitialMigration123.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
                     b.Property<int?>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScheduleId")
                         .HasColumnType("int");
 
                     b.Property<string>("SectionName")
@@ -198,57 +159,57 @@ namespace InitialMigration123.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("VARCHAR");
 
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Sections", (string)null);
+                    b.HasIndex("ScheduleId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseId = 1,
-                            InstructorId = 1,
-                            SectionName = "S_MA1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CourseId = 1,
-                            InstructorId = 2,
-                            SectionName = "S_MA2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CourseId = 2,
-                            InstructorId = 1,
-                            SectionName = "S_PH1"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CourseId = 2,
-                            InstructorId = 3,
-                            SectionName = "S_PH1"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CourseId = 3,
-                            InstructorId = 2,
-                            SectionName = "S_CH1"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CourseId = 3,
-                            InstructorId = 3,
-                            SectionName = "S_CH1"
-                        });
+                    b.ToTable("Sections", (string)null);
+                });
+
+            modelBuilder.Entity("InitialMigration123.Entities.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.Property<string>("LName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Students", (string)null);
+                });
+
+            modelBuilder.Entity("InitialMigration123.Entities.Enrollment", b =>
+                {
+                    b.HasOne("InitialMigration123.Entities.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InitialMigration123.Entities.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Section");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("InitialMigration123.Entities.Instructor", b =>
@@ -272,9 +233,17 @@ namespace InitialMigration123.Migrations
                         .WithMany("Sections")
                         .HasForeignKey("InstructorId");
 
+                    b.HasOne("InitialMigration123.Entities.Schedule", "Schedule")
+                        .WithMany("Sections")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Course");
 
                     b.Navigation("Instructor");
+
+                    b.Navigation("Schedule");
                 });
 
             modelBuilder.Entity("InitialMigration123.Entities.Course", b =>
@@ -290,6 +259,11 @@ namespace InitialMigration123.Migrations
             modelBuilder.Entity("InitialMigration123.Entities.Office", b =>
                 {
                     b.Navigation("Instructor");
+                });
+
+            modelBuilder.Entity("InitialMigration123.Entities.Schedule", b =>
+                {
+                    b.Navigation("Sections");
                 });
 #pragma warning restore 612, 618
         }
